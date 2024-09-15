@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planetário de Brasília Luiz Cruls</title>
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+
+    <header>
+        <h1 id="header-title">Planetário de Brasília Luiz Cruls</h1>
+        <div class="language-switcher">
+            🌐 <select id="language-select">
+                <option value="pt">Português</option>
+                <option value="en">English</option>
+                <option value="es">Español</option>
+                <option value="ko">한국어</option>
+            </select>
+        </div>
+        <div class="font-control">
+            <button onclick="decreaseFontSize()">A-</button>
+            <button onclick="increaseFontSize()">A+</button>
+        </div>
+    </header>
+
+    <nav>
+        <a id="link-planetario" href="#">O Planetário</a>
+        <a id="link-como-chegar" href="#">Como Chegar</a>
+        <a id="link-cupula" href="#">A Cúpula</a>
+        <a id="link-visita-virtual" href="#">Visita Virtual</a>
+    </nav>
+
+    <div id="main-content" class="content">
+        <h1>Planetário de Brasília Luiz Cruls</h1>
+    </div>
+
+    <section id="dynamic-section">
+        <!-- Conteúdo dinâmico será inserido aqui -->
+    </section>
+
+    <button id="backToTop">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z"/>
+        </svg>
+    </button>
+
+    <script>
+        // Load language data
+        const langData = {
+            'pt': {
+                'planetario': {
+                    title: "O Planetário",
+                    content: `<h2>O Planetário</h2>
+                              <p>O <strong>Planetário de Brasília Luiz Cruls</strong>, fundado em 15 de março de 1974, oferece uma experiência única de observação e aprendizado sobre o universo. Ele recebeu esse nome oficialmente em 2021 para homenagear o astrônomo e geodesista belga que liderou a Comissão Exploradora do Planalto Central (Conhecida como “Missão Cruls”). A entrada é gratuita, e o horário de visitação é de terça a domingo, das 8h às 18h.</p>
+                              <p>Assim como descrito na própria página do Planetário, é um equipamento público com ambiente voltado à educação e divulgação científica, além de um espaço cultural, histórico e de entretenimento.</p>
+                              <p>Além disso, este ano ele está completando 50 anos de uma história repleta de fomentação do interesse em astronomia na capital federal.</p>`,
+                    backgroundImage: 'https://secti.df.gov.br/wp-conteudo/uploads/2017/09/WhatsApp-Image-2019-06-29-at-11.53.43-1.jpeg',
+                },
+                'como-chegar': {
+                    title: "Como Chegar",
+                    content: `<h2>Como Chegar</h2>
+                              <p>Linhas de ônibus disponíveis: <strong>108, 208, 508</strong>. Localizado próximo à rodoviária de Brasília, o Planetário é de fácil acesso a pé.</p>
+                              <p>O prédio tem três mil metros quadrados de área construída e fica em um lugar privilegiado: entre a Torre de TV e o Centro de Convenções Ulysses Guimarães.</p>`,
+                    backgroundImage: 'https://cdn.jornaldebrasilia.com.br/wp-content/uploads/2021/10/11143208/PLANETARIO_FOTO-CLAUDIO-BERGER-scaled-1-e1633973556853.jpg',
+                },
+                'cupula': {
+                    title: "A Cúpula",
+                    content: `<h2>A Cúpula</h2>
+                              <p>Localizada no Térreo e onde se projeta filmes pedagógicos sobre astronomia, astronáutica e cosmologia através dos projetores <strong>Space Master</strong>, um equipamento analógico que está presente no espaço desde 1970; e <strong>Power Dome VIII</strong> que foi desenvolvido pela empresa alemã Carl Zeiss. Ele é formado por oito projetores laterais e 12 caixas acústicas, que aumentam a sensação de realidade do filme projetado.</p>`,
+                    backgroundImage: 'https://perfildosmunicipios.com.br/wp-content/uploads/2019/07/F%C3%A9rias-no-Planet%C3%A1rio-um-encontro-l%C3%BAdico-e-educativo.jpg',
+                },
+                'visita-virtual': {
+                    title: "Visita Virtual",
+                    content: `<h2>Visita Virtual</h2>
+                              <p>Assista ao vídeo de visita virtual ao Planetário:</p>
+                              <iframe width="560" height="315" src="https://www.youtube.com/embed/1jkkOVH0e9k?si=ig7f_in8jD5nuT5k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`,
+                    backgroundImage: 'https://www.acordadf.com.br/wp-content/uploads/2021/07/4444CD2E-8FB5-4AB2-AC99-86DABB7E2C86.jpeg',
+                },
+                menu: ["O Planetário", "Como Chegar", "A Cúpula", "Visita Virtual"]
+            },
+            'en': langData_en,
+            'es': langData_es,
+            'ko': langData_ko 
+        };
+
+        // Função para trocar o conteúdo da página
+        function changePage(page) {
+            const contentDiv = document.getElementById('dynamic-section');
+            const content = langData[currentLang][page];
+            document.getElementById('main-content').style.backgroundImage = `url(${content.backgroundImage})`;
+            contentDiv.innerHTML = content.content;
+            document.getElementById('header-title').textContent = content.title;
+        }
+
+        // Função para atualizar o menu de navegação
+        function updateMenu() {
+            const menuLinks = document.querySelectorAll('nav a');
+            const menuLabels = langData[currentLang].menu;
+            menuLinks.forEach((link, index) => {
+                link.textContent = menuLabels[index];
+                link.onclick = (event) => {
+                    event.preventDefault(); // Impede o comportamento padrão do link
+                    changePage(link.id.replace('link-', ''));
+                };
+            });
+        }
+
+        // Função para mudar o idioma
+        let currentLang = 'pt';
+        function switchLanguage(lang) {
+            currentLang = lang;
+            updateMenu();
+            changePage('planetario'); // Redefine para uma página inicial ao trocar o idioma
+        }
+
+        // Configurar eventos para selecionar idioma
+        document.getElementById('language-select').addEventListener('change', (event) => {
+            switchLanguage(event.target.value);
+        });
+
+        // Ajuste de tamanho de fonte
+        let fontSize = 16; // Tamanho de fonte inicial (em pixels)
+        function decreaseFontSize() {
+            fontSize -= 2;
+            document.body.style.fontSize = fontSize + 'px';
+        }
+
+        function increaseFontSize() {
+            fontSize += 2;
+            document.body.style.fontSize = fontSize + 'px';
+        }
+
+        // Botão Voltar ao Topo
+        const backToTopButton = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 100) {
+                backToTopButton.style.display = 'block';
+            } else {
+                backToTopButton.style.display = 'none';
+            }
+        });
+
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Configuração inicial
+        updateMenu();
+        changePage('planetario');
+    </script>
+
+</body>
+</html>
